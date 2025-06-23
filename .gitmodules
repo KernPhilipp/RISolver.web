@@ -1,0 +1,3 @@
+[submodule "demo/RISolver"]
+	path = demo/RISolver
+	url = https://github.com/KernPhilipp/RISolver.git
