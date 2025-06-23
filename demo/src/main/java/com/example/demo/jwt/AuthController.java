@@ -3,6 +3,7 @@ package com.example.demo.jwt;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final AuthenticationManager authManager;
+    private final AuthenticationConfiguration authConfig;
     private final CustomUserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
 
@@ -21,16 +22,17 @@ public class AuthController {
     public record AuthResponse(String token) {
     }
 
-    public AuthController(AuthenticationManager authManager,
+    public AuthController(AuthenticationConfiguration authConfig,
                           CustomUserDetailsService userDetailsService,
                           JwtUtil jwtUtil) {
-        this.authManager = authManager;
+        this.authConfig = authConfig;
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest req) {
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest req) throws Exception {
+        AuthenticationManager authManager = authConfig.getAuthenticationManager();
         Authentication auth = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.username(), req.password())
         );
