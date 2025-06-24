@@ -23,6 +23,7 @@ public class RagController {
 
     @PostMapping
     public ResponseEntity<RagResponse> ask(@RequestBody RagRequest req) {
+        System.out.println("Backend – empfangene Frage: " + req.question());
         String ans = ragService.getAnswer(req.question());
         return ResponseEntity.ok(new RagResponse(ans));
     }

@@ -16,7 +16,7 @@ public class RagService {
             ProcessBuilder pb = new ProcessBuilder(
                     "py", scriptPath, question
             );
-            pb.redirectErrorStream(true);
+            pb.redirectErrorStream(false);
             Process process = pb.start();
 
             BufferedReader reader =
