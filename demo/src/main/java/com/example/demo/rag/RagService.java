@@ -14,7 +14,7 @@ public class RagService {
     public String getAnswer(String question) {
         try {
             ProcessBuilder pb = new ProcessBuilder(
-                    "python3", scriptPath, question
+                    "py", scriptPath, question
             );
             pb.redirectErrorStream(true);
             Process process = pb.start();
